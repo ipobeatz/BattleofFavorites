@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "823516999319",
+    "project_id": "battle-of-favorites",
+    "storage_bucket": "battle-of-favorites.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823516999319:android:3e85b1d96654fa4420c3d2",
+        "android_client_info": {
+          "package_name": "com.android.battleoffavorites"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3YCZK8YspSEbgVCaKWxrzA8qz0pkWyxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
