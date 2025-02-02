@@ -1,4 +1,4 @@
-package com.android.battleoffavorites.screens
+package com.android.battleoffavorites.models
 
 import androidx.compose.ui.graphics.Color
 

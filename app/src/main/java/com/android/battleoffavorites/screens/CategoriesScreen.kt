@@ -1,9 +1,14 @@
+// File: CategoriesScreen.kt
 package com.android.battleoffavorites.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,14 +29,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.battleoffavorites.R
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import com.android.battleoffavorites.data.CategoryMockData
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
-@Preview(showBackground = true)
 @Composable
-fun CategoriesScreen() {
+fun CategoriesScreen(navController: NavController) {
     val categories = CategoryMockData.categories
 
     Box(
@@ -50,7 +53,11 @@ fun CategoriesScreen() {
                 Card(
                     modifier = Modifier
                         .fillMaxSize()
-                        .height(130.dp),
+                        .height(130.dp)
+                        .clickable {
+                            // İlgili kategoriye tıklanınca, detay ekranına yönlendiriyoruz.
+                            navController.navigate("categoryDetail/${category.id}")
+                        },
                     shape = RoundedCornerShape(18.dp),
                     colors = CardDefaults.cardColors(containerColor = category.bgColor ?: Color.Gray)
                 ) {
@@ -77,4 +84,10 @@ fun CategoriesScreen() {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CategoriesScreenPreview() {
+    CategoriesScreen(navController = rememberNavController())
 }

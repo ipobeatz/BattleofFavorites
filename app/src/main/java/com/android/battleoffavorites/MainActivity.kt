@@ -11,10 +11,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.android.battleoffavorites.data.CarDataProvider
 import com.android.battleoffavorites.data.HomeData
 import com.android.battleoffavorites.screens.CategoriesScreen
+import com.android.battleoffavorites.screens.CategoryDetailScreen
 import com.android.battleoffavorites.screens.HomeScreen
-import com.android.battleoffavorites.screens.TestModel
 import com.android.battleoffavorites.screens.TestScreen
 import com.android.battleoffavorites.ui.theme.BattleOfFavoritesTheme
 
@@ -46,17 +47,25 @@ fun NavigationGraph() {
             )
         }
         composable(Screen.Categories.route) {
-            CategoriesScreen()
+            CategoriesScreen(navController)
+        }
+        composable("categoryDetail/{categoryId}") { backStackEntry ->
+            val categoryId = backStackEntry.arguments?.getString("categoryId")?.toIntOrNull() ?: 0
+            CategoryDetailScreen(categoryId = categoryId)
         }
         composable(
             route = Screen.Test.route,
             arguments = listOf(navArgument("testId") { type = NavType.IntType }) // ID parametresi
         ) { backStackEntry ->
             val testId = backStackEntry.arguments?.getInt("testId") ?: -1
-            val selectedTest = HomeData.testModels.find { it.id == testId }
+            val selectedTest = CarDataProvider.testModels.find { it.id == testId }
+            val selectedTest1 = HomeData.homeModels.find { it.id == testId }
+
 
             if (selectedTest != null) {
-                TestScreen(testModel = selectedTest)
+                if (selectedTest1 != null) {
+                    TestScreen(homeModel = selectedTest1)
+                }
             }
         }
     }
