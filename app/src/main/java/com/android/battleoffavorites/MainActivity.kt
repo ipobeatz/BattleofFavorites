@@ -1,3 +1,4 @@
+// File: MainActivity.kt
 package com.android.battleoffavorites
 
 import android.os.Bundle
@@ -11,7 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.android.battleoffavorites.data.CarDataProvider
 import com.android.battleoffavorites.data.HomeData
 import com.android.battleoffavorites.screens.CategoriesScreen
 import com.android.battleoffavorites.screens.CategoryDetailScreen
@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationGraph() {
     val navController = rememberNavController()
+
     NavHost(navController = navController, startDestination = Screen.Home.route) {
         composable(Screen.Home.route) {
             HomeScreen(
@@ -42,7 +43,7 @@ fun NavigationGraph() {
                     navController.navigate(Screen.Categories.route)
                 },
                 onTestClick = { test ->
-                    navController.navigate("test/${test.id}") // ID'yi yolla
+                    navController.navigate("test/${test.id}")
                 }
             )
         }
@@ -51,21 +52,16 @@ fun NavigationGraph() {
         }
         composable("categoryDetail/{categoryId}") { backStackEntry ->
             val categoryId = backStackEntry.arguments?.getString("categoryId")?.toIntOrNull() ?: 0
-            CategoryDetailScreen(categoryId = categoryId)
+            CategoryDetailScreen(categoryId = categoryId, navController = navController)
         }
         composable(
-            route = Screen.Test.route,
-            arguments = listOf(navArgument("testId") { type = NavType.IntType }) // ID parametresi
+            route = "test/{testId}",
+            arguments = listOf(navArgument("testId") { type = NavType.IntType })
         ) { backStackEntry ->
             val testId = backStackEntry.arguments?.getInt("testId") ?: -1
-            val selectedTest = CarDataProvider.testModels.find { it.id == testId }
-            val selectedTest1 = HomeData.homeModels.find { it.id == testId }
-
-
+            val selectedTest = HomeData.homeModels.find { it.id == testId }
             if (selectedTest != null) {
-                if (selectedTest1 != null) {
-                    TestScreen(homeModel = selectedTest1)
-                }
+                TestScreen(homeModel = selectedTest)
             }
         }
     }

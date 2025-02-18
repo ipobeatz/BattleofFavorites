@@ -21,16 +21,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.android.battleoffavorites.data.CategoryMockData
 import com.android.battleoffavorites.data.HomeData
 import com.android.battleoffavorites.models.HomeModel
 
 
 @Composable
-fun CategoryDetailScreen(categoryId: Int) {
-
+fun CategoryDetailScreen(categoryId: Int, navController: NavController) {
     val category = CategoryMockData.categories.firstOrNull { it.id == categoryId }
-
     val testsForCategory = HomeData.homeModels.filter { it.categoryId == categoryId }
 
     Column(
@@ -38,7 +37,6 @@ fun CategoryDetailScreen(categoryId: Int) {
             .fillMaxSize()
             .background(Color(0xFF212121))
     ) {
-        // Üstte başlık için header card (sadece kategori adı, fotoğraf yok)
         if (category != null) {
             category.bgColor?.let { CardDefaults.cardColors(containerColor = it) }?.let {
                 Card(
@@ -54,10 +52,10 @@ fun CategoryDetailScreen(categoryId: Int) {
                         style = MaterialTheme.typography.headlineMedium,
                         color = Color.White,
                         modifier = Modifier
-                            .fillMaxWidth()   // Ekranın tüm genişliğini kaplar
+                            .fillMaxWidth()
                             .padding(10.dp),
                         fontSize = 16.sp,
-                        textAlign = TextAlign.Center  // Metni ortalar
+                        textAlign = TextAlign.Center
                     )
                 }
             }
@@ -69,21 +67,17 @@ fun CategoryDetailScreen(categoryId: Int) {
                 modifier = Modifier.padding(16.dp)
             )
         }
-        // Alt kısımda kategoriye ait testleri alt alta listeleyen LazyColumn
+
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(testsForCategory) { test ->
-                TestCard(test = test, onClick = { /* Test detayına gitme işlemi */ })
+                TestCard(test = test, onClick = {
+                    navController.navigate("test/${test.id}")
+                })
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CategoryDetailScreenPreview() {
-    CategoryDetailScreen(categoryId = 1)
 }
